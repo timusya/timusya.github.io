@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+void __print(int x) {cerr &lt&lt x;}
+void __print(long x) {cerr &lt&lt x;}
+void __print(long long x) {cerr &lt&lt x;}
+void __print(unsigned x) {cerr &lt&lt x;}
+void __print(unsigned long x) {cerr &lt&lt x;}
+void __print(unsigned long long x) {cerr &lt&lt x;}
+void __print(float x) {cerr &lt&lt x;}
+void __print(double x) {cerr &lt&lt x;}
+void __print(long double x) {cerr &lt&lt x;}
+void __print(char x) {cerr &lt&lt '\'' &lt&lt x &lt&lt '\'';}
+void __print(const char *x) {cerr &lt&lt '\"' &lt&lt x &lt&lt '\"';}
+void __print(const string &x) {cerr &lt&lt '\"' &lt&lt x &lt&lt '\"';}
+void __print(bool x) {cerr &lt&lt (x ? "true" : "false");}
+ 
+template&lttypename T, typename V&gt
+void __print(const pair&ltT, V&gt &x) {cerr &lt&lt '{'; __print(x.first); cerr &lt&lt ','; __print(x.second); cerr &lt&lt '}';}
+template&lttypename T&gt
+void __print(const T &x) {int f = 0; cerr &lt&lt '{'; for (auto &i: x) cerr &lt&lt (f++ ? "," : ""), __print(i); cerr &lt&lt "}";}
+void _print() {cerr &lt&lt "]\n";}
+template &lttypename T, typename... V&gt
+void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr &lt&lt ", "; _print(v...);}
+#ifndef ONLINE_JUDGE
+#define debug(x...) cerr &lt&lt "[" &lt&lt #x &lt&lt "] = ["; _print(x)
+#else
+#define debug(x...)
+#endif
+
+
+#define mp make_pair
+#define mt make_tuple
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define ll long long
+ 
+using namespace std;
+ 
+typedef pair&ltint, int&gt pii;
+typedef vector&ltint&gt vi;
+typedef vector&ltpii&gt vpi;
+typedef vector&ltvi&gt vvi;
+typedef vector&ltll&gt vll;
+typedef vector&ltvll&gt vvll;
+
+template&ltclass T&gt bool uin(T &a, T b) { return a &gt b ? (a = b, true) : false; }
+template&ltclass T&gt bool uax(T &a, T b) { return a &lt b ? (a = b, true) : false; }</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

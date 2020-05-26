@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+struct segtree {
+ 
+    vector&ltint&gt tree;
+    int size;
+ 
+    void init (int n) {
+        size = 1;
+        while (size &lt n) size &lt&lt= 1;
+        tree.assign(size &lt&lt 1, 0);
+    }
+ 
+    void build (vector&ltint&gt &a, int x, int lx, int rx) {
+        if (lx == rx) {
+            if (lx &lt a.size())
+                tree[x] = a[lx];
+            return;
+        }
+        int m = (lx + rx) &gt&gt 1;
+        build(a, x + x, lx, m);
+        build(a, x + x + 1, m + 1, rx);
+        tree[x] = tree[x + x] + tree[x + x + 1];
+    }
+ 
+    void biuld (vector&ltint&gt &a) {
+        init(a.size());
+        build(a, 1, 0, size - 1);
+    }
+ 
+    void set (int x, int lx, int rx, int i, int v) {
+        if (lx == rx) {
+            tree[x] = v;
+            return;
+        }
+        int m = (lx + rx) &gt&gt 1;
+        if (i &lt= m) {
+            set(x + x, lx, m, i, v);
+        } else {
+            set(x + x + 1, m + 1, rx, i, v);
+        }
+        tree[x] = tree[x + x] + tree[x + x + 1];
+    }
+ 
+    void set (int i, int v) {
+        set(1, 0, size - 1, i, v);
+    }
+ 
+    int sum (int x, int lx, int rx, int l, int r) {
+        if (lx &gt r || rx &lt l) {
+            return 0;
+        }
+        if (lx &gt= l && rx &lt= r) {
+            return tree[x];
+        }
+        int m = (lx + rx) &gt&gt 1;
+        return sum(x + x, lx, m, l, r) + sum(x + x + 1, m + 1, rx, l, r);
+    }
+ 
+    int sum (int l, int r) {
+        return sum (1, 0, size - 1, l, r);
+    }
+ 
+};</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

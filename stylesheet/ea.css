@@ -1,0 +1,37 @@
+.cpp {
+    font-size: 14px;
+    line-height: 150%;
+    /* background: #ffffff;  */
+    overflow:auto;
+    width:auto;
+    border:solid gray;
+    border-width:.1em .1em .1em .8em;
+    padding: 2px 5px;
+}
+
+body {
+    font-family: monospace;
+}
+
+h2 {
+    color: black;
+    border-bottom: 2px solid black;
+    font-weight: 550;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+main {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-size: 18px;
+}
+
+code {
+    white-space: nowrap;
+    background-color: rgb(235, 235, 235);
+}
+
+li {
+	margin-top: 10px;
+}

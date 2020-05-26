@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+struct sqrt_decomposition {
+ 
+    int n, len;
+    vector&ltint&gt a, b;
+    const int INF = 1e9;
+ 
+    void init (int n) {
+        this-&gtn = n;
+        len = (int)sqrt(n) + 1;
+        a.resize(n, INF);
+        b.resize(len, INF);
+    }
+ 
+    void build (const vector&ltint&gt &_a) {
+        init(_a.size());
+        a = _a;
+        for (int i = 0; i &lt n; ++i) b[i / len] = min(b[i / len], a[i]);
+    }
+ 
+    int rmq (int l, int r) {
+        int ans = INF;
+        int c_l = l / len, c_r = r / len;
+        if (c_l == c_r)
+            for (int i = l; i &lt= r; ++i)
+                ans = min(ans, a[i]);
+        else {
+            for (int i = l; i &lt= (c_l + 1) * len - 1; ++i)
+                ans = min(ans, a[i]);
+            for (int i = c_l + 1; i &lt= c_r - 1; ++i)
+                ans = min(ans, b[i]);
+            for (int i = c_r * len; i &lt= r; ++i)
+                ans = min(ans, a[i]);
+        }
+        return ans;
+    }
+ 
+};</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

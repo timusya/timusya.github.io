@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+#include &ltext/pb_ds/assoc_container.hpp&gt
+using namespace __gnu_pbds;
+
+typedef tree&ltint, null_type, less&ltint&gt, rb_tree_tag, tree_order_statistics_node_update&gt ordered_set;
+
+ordered_set s;
+
+s.insert(x);
+s.erase(x);
+s.find() != s.end()
+*s.find_by_order(k) // k-ый элемент
+s.order_of_key(x) // индекс элемента(количество меньших x)
+*s.upper_bound(x)
+*s.lower_bound(x)
+
+/////////////////////////////////////////////////////////////
+
+typedef tree&ltint, null_type, less_equal&ltint&gt, rb_tree_tag, tree_order_statistics_node_update&gt ordered_multiset;
+
+ordered_multiset s;
+
+s.insert(x);
+*s.find_by_order(k) //k-ый элемент
+s.order_of_key(x) // индекс элемента(первое вхождение)
+*s.upper_bound(x)
+*s.lower_bound(x)</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

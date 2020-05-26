@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+struct node {
+    int val, prior, size = 1, _min;
+    node *l = 0, *r = 0;
+    node (int val) : val(val), _min(val) {prior = (rand() << 16) + rand();}
+};
+
+int get_size (node* t) {
+    return t ? t->size : 0;
+}
+
+int get_min (node* t) {
+    return t ? t->_min : INT_MAX;
+}
+
+void update (node* t) {
+    if (!t) return;
+    t->size = get_size(t->l) + get_size(t->r) + 1;
+    t->_min = min(t->val, min(get_min(t->l), get_min(t->r)));
+}
+
+void split (node* t, int idx, node* &l, node* &r) { // idx), [idx
+    if (!t) {
+        l = r = 0;
+        return;
+    }
+    int left_size = get_size(t->l);
+    if (left_size < idx) {
+        split(t->r, idx - left_size - 1, t->r, r), l = t;
+    } else {
+        split(t->l, idx, l, t->l), r = t;
+    }
+    update(t);
+}
+
+void merge (node* &t, node* l, node* r) {
+    if (!l || !r) {
+        t = (l ? l : r);
+        return;
+    }
+    if (l->prior < r->prior) {
+        merge(l->r, l->r, r), t = l;
+    } else {
+        merge(r->l, l, r->l), t = r;
+    }
+    update(t);
+}
+
+void insert (node* &t, node* a, int idx) {
+    if (!t) {
+        t = a;
+        return;
+    }
+    int left_size = get_size(t->l);
+    if (a->prior < t->prior) {
+        split(t, idx, a->l, a->r), t = a;
+    } else {
+        if (left_size >= idx) {
+            insert(t->l, a, idx);
+        } else {
+            insert(t->r, a, idx - left_size - 1);
+        }
+    }
+    update(t);
+}
+
+void remove (node* &t, int idx) {
+    if (!t) return;
+    int left_size = get_size(t->l);
+    if (left_size > idx) {
+        remove(t->l, idx);
+    } else if (left_size < idx) {
+        remove(t->r, idx - left_size - 1);
+    } else {
+        merge(t, t->l, t->r);
+    }
+    update(t);
+}
+
+int get_kth_element (node* t, int k) {
+    if (!t) return -1;
+    int left_size = get_size(t->l);
+    if (left_size == k)
+        return t->val;
+    if (k < left_size)
+        return get_kth_element(t->l, k);
+    else
+        return get_kth_element(t->r, k - left_size - 1);
+}
+
+void traversal (node* t) {
+    if (!t) return;
+    traversal(t->l);
+    cout << t->val << " ";
+    traversal(t->r);
+}
+
+int rmq (node* t, int l, int r) {
+    node *s1, *s2, *s3;
+    split(t, l, s1, s2);
+    split(s2, r + 1 - l, s2, s3);
+    int ans = s2->_min;
+    merge(t, s1, s2);
+    merge(t, t, s3);
+    return ans;
+}</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

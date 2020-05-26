@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+struct fenwick_tree {
+
+    int n;
+    vector&ltll&gt t;
+
+    void init (int n) {
+        this->n = n;
+        t.resize(n, 0);
+    }
+
+    void build (const vector&ltint&gt &a) {
+        init(a.size());
+        t[0] = a[0];
+        for (int i = 1; i < n; i++) t[i] = t[i - 1] + a[i];
+
+        for (int i = n - 1; i > 0; --i) {
+            int lower_i = (i & (i + 1)) - 1;
+            if (lower_i >= 0) t[i] -= t[lower_i];
+        }
+    }
+
+    ll sum (int r) {
+        ll ans = 0;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ans += t[r];
+        return ans;
+    }
+
+    ll sum (int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+
+    void inc (int i, int v) {
+        for (; i < n; i = (i | (i + 1)))
+            t[i] += v;
+    }
+
+};</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

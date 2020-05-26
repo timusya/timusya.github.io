@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+struct node {
+    int x, y, size = 1;
+    node *l = 0, *r = 0;
+    node() {}
+    node(int x, int y) : x(x), y(y) {}
+    node(int x) : x(x) { y = (rand() << 16) + rand(); }
+};
+
+int get_size (node* t) {
+    return t ? t->size : 0;
+}
+
+void update (node* t) {
+    if (!t) return;
+    t->size = get_size(t->l) + get_size(t->r) + 1;
+}
+
+void split (node* t, int x, node* &l, node* &r) { // x], (x
+    if (!t) {
+        l = r = 0;
+        return;
+    }
+    if (x < t->x)
+        split(t->l, x, l, t->l), r = t;
+    else
+        split(t->r, x, t->r, r), l = t;
+    update(t);
+}
+
+void merge (node* &t, node* l, node* r) { // l & r sorted
+    if (!l || !r) {
+        t = (l ? l : r);
+        return;
+    }
+    if (l->y > r->y) {
+        merge(l->r, l->r, r), t = l;
+    } else {
+        merge(r->l, l, r->l), t = r;
+    }
+    update(t);
+}
+
+void insert (node* &t, node* it) {
+    if (!t) {
+        t = it;
+        return;
+    }
+    if (it->y > t->y)
+        split(t, it->x, it->l, it->r), t = it;
+    else
+        insert(it->x < t->x ? t->l : t->r, it);
+    update(t);
+}
+
+void remove (node* &t, int x) {// удаляет один из x
+    if (!t) return;
+    if (t->x == x)
+        merge(t, t->l, t->r);
+    else
+        remove(x < t->x ? t->l : t->r, x);
+    update(t);
+}
+
+bool find (node* t, int x) {
+    if (!t) return 0;
+    if (t->x == x) return 1;
+    return find(x < t->x ? t->l : t->r, x);
+}
+
+void traversal (node* t) {
+    if (!t) return;
+    traversal(t->l);
+    cout << t->x << " ";
+    traversal(t->r);
+}
+
+int get_kth_element (node* t, int k) {
+    if (!t) return -1;
+    int left_size = get_size(t->l);
+    if (left_size == k)
+        return t->x;
+    if (k < left_size)
+        return get_kth_element(t->l, k);
+    else
+        return get_kth_element(t->r, k - left_size - 1);
+}
+
+int get_idx (node* t, int x) {
+    if (!t) return 0;
+    if (t->x == x)
+        return get_size(t->l);
+    if (x < t->x)
+        return get_idx(t->l, x);
+    else
+        return get_idx(t->r, x) + get_size(t->l) + 1;
+}</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

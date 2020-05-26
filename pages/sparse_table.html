@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+	</head>
+	
+	<body>
+		
+		<main>
+			<pre>
+struct sparse_table {
+
+    int size, log;
+    vector&ltvector&ltint&gt &gt m;
+
+    void init (int n) {
+        size = n;
+        log = __lg(n);
+        m.resize(n, vector&ltint&gt(1 + log));
+    }
+
+    void build (const vector&ltint&gt &a) {
+        init(a.size());
+        for (int i = 0; i < size; ++i) {
+            m[i][0] = a[i];
+        }
+        for (int k = 1; k <= log; ++k) {
+            for (int i = 0; i + (1 << k) - 1 < size; ++i) {
+                m[i][k] = min(m[i][k - 1], m[i + (1 << (k - 1))][k - 1]);
+            }
+        }
+    }
+
+    int rmq (int l, int r) {
+        int p = __lg(r - l + 1);
+        return min(m[l][p], m[r - (1 << p) + 1][p]);
+    }
+
+};</code></pre>
+
+		</main>
+		
+	</body>
+	
+</html>

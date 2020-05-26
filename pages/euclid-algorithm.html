@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+	<head>
+		<meta charset="UTF-8"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>Algotim</title>
+		<link rel="stylesheet" href="../stylesheet/ea.css">
+	</head>
+	
+	<body>
+	
+       <header style="background-color: rgb(177, 177, 177); font-family: monospace;">
+            <table><tr>
+                <td><a href="index.html"><img src="../images/note1.jpg" width="85" style="align-items: right;"></a></td>
+                <td><a href="index.html" style="text-decoration: none;"><h1 style="text-align: left; color:rgb(255, 255, 255); font-weight: 500; margin-left: 12.5px;">Algotim</h1></td></a>
+            </tr></table>
+        </header>
+		
+		<main>
+			<p><code>Это просто пример оформления странички. В дальнейшем буду прикреплять сюда свои коды, чтобы их потом использовать.</code></p>
+			<h2 style="text-align: center;">Алгоритм Евклида</h2>
+			<p><em>Наибольшим общим делителем</em> (англ. <em>greatest common divisor</em>) целых неотрицательных чисел 
+			<b>a</b> и <b>b</b> называется наибольшее число <b>x</b>, которое делит одновременно и <b>a</b>, и <b>b</b>.</p>
+			<p>Когда оба числа равны нулю, результат не определён — подойдёт сколько угодно большое число.
+			Однако в этом случае мы положим в этом случае <b>gcd</b> равным тоже нулю, чтобы можно было использовать
+			следующее правило: если одно из чисел равно нулю, то их <b>gcd</b> равен второму числу.</p>
+			<p>Алгоритм Евклида находит <b>gcd</b> двух чисел <b>a</b> и <b>b</b> за O(logmin(<b>a</b>,<b>b</b>)).
+			Он известен ещё с IV века до нашей эры, а возможно и ранее.</p>
+			<p>Алгоритм основывается на следующей несложной формуле:</p>
+			<div style="text-align: center;"><img src="../images/form1.jpg" width="300"></div>
+			<p>Здесь предполагается, что <b>a</b>><b>b</b>.</p>
+			<p>Докажем корректность этой формулы:</p>
+			<ul>
+                <li><span>Если <b>g</b>=gcd(<b>a</b>,<b>b</b>) делит и <b>a</b>, и <b>b</b>, то их разность
+				(<b>a</b>−<b>b</b>) тоже будет делиться на <b>g</b>.</span></li>
+				<li><span>Никакой больший делитель <b>d</b> числа <b>b</b> не может делить число 
+				(<b>a</b>−<b>b</b>): если <b>d</b>><b>g</b>, то <b>d</b> не может делить <b>a</b>, а значит и не делит 
+				(<b>a</b>−<b>b</b>).</span></li>
+            </ul>
+			<p>Прямая рекурсивная реализация:</p>
+			<div class = "cpp"><pre>
+<span style="color: #0000ff">int</span> gcd(<span style="color: #0000ff">int</span> a, <span style="color: #0000ff">int</span> b) {
+    <span style="color: #0000ff">if</span> (a < b)
+        swap(a, b);
+    <span style="color: #0000ff">if</span> (b == 0)
+        return a;
+    <span style="color: #0000ff">else</span>
+        <span style="color: #0000ff">return</span> gcd(b, a - b);
+}</pre></div><br>
+			<p>Этот алгоритм может работать долго — например, на паре (1e9,1) он сделает миллиард итераций.
+			Идея дальнейшей оптимизации в том, чтобы вычитать из <b>a</b> не одно <b>b</b> за раз, а столько, чтобы в следующий раз
+			<b>a</b> и <b>b</b> уже поменялись местами — чтобы новое <b>b</b> стало меньше нового <b>a</b>.</p>
+			<p>Простой способ этого достичь — просто вычесть <b>b</b> из a сразу максимально возможное число раз, то есть взять
+			вместо нового <b>b</b> остаток от деления <b>a</b> на <b>b</b>:</p>
+			<div style="text-align: center;"><img src="../images/form2.jpg" width="325"></div>
+			<p>Реализация:</p>
+			<div class = "cpp"><pre>
+<span style="color: #0000ff">int</span> gcd(<span style="color: #0000ff">int</span> a, <span style="color: #0000ff">int</span> b) {
+    <span style="color: #0000ff">if</span> (b == 0)
+        return a;
+    <span style="color: #0000ff">else</span>
+        <span style="color: #0000ff">return</span> gcd(b, a % b);
+}</pre></div><br>
+			<p>Чуть более быстрая итеративная форма:</p>
+			<div class = "cpp"><pre>
+<span style="color: #0000ff">int</span> gcd(<span style="color: #0000ff">int</span> a, <span style="color: #0000ff">int</span> b) {
+    <span style="color: #0000ff">while</span> (b > 0) {
+        a %= b;
+        swap(a, b);
+    }
+    <span style="color: #0000ff">return</span> a;
+}</pre></div><br>
+		<p>Короткая реализация:</p>
+			<div class = "cpp"><pre>
+<span style="color: #0000ff">int</span> gcd (<span style="color: #0000ff">int</span> a, <span style="color: #0000ff">int</span> b) {
+	<span style="color: #0000ff">return</span> b ? gcd (b, a % b) : a;
+}</pre></div><br>	
+		<p>В компиляторе <code>gcc</code> для этого уже есть встроенная функция <code>__gcd</code>,
+		которая, впрочем, может непредсказуемо себя вести на отрицательных числах и (0,0).</p>
+		<h2>Время работы</h2>
+		<p>Можно показать, что каждые две итерации меньшее число уменьшится хотя бы в два раза,
+		а следовательно алгоритм работает за O(logmin(<b>a</b>,<b>b</b>)).</p>
+		<h2>НОК</h2>
+		<p>Вычисление <em>наименьшего общего кратного</em> (англ. <em>least common multiplier</em>) сводится к
+		вычислению <b>gcd</b> следующим простым утверждением:</p>
+		<div style="text-align: center;"><img src="../images/form3.jpg" width="175"></div>
+		<p>Таким образом, вычисление <b>НОК</b> также можно сделать с помощью алгоритма Евклида, с той же асимптотикой:</p>
+			<div class = "cpp"><pre>
+<span style="color: #0000ff">int</span> lcm (<span style="color: #0000ff">int</span> a, <span style="color: #0000ff">int</span> b) {
+	<span style="color: #0000ff">return</span> a / gcd (a, b) * b;
+}</pre></div><br>	
+		<p>(здесь выгодно сначала поделить на <b>gcd</b>, а только потом домножать на <b>b</b>, поскольку это поможет избежать
+		переполнений в некоторых случаях)</p>
+		</main>
+		
+	</body>
+	
+</html>
